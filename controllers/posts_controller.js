@@ -64,3 +64,15 @@ exports.create = function (req, res, next) {
         res.redirect('/blog')
     }).catch(next)
 };
+
+exports.put = function (req, res, next) {
+  Post.findById(id, function (err, post) {
+    if (err) return handleError(err);
+  
+    post.title = req.title;
+    post.save(function (err, updatedPost) {
+      if (err) return handleError(err);
+      res.send(updatedPost);
+    });
+  });
+}

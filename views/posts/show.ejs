@@ -1,12 +1,19 @@
 <!-- contains a partial for an individual blog page -->
 
-<h1><%= post['title'] %></h1>
-<p>
-  <%= post['content'] %>
-</p>
+<h1>
+  <%= post['title'] %>
+</h1>
+<form action="/blog" method="put">
+  Content:<br>
+<textarea name="content" value="<%- post['content'] || "" %>" required></textarea><br>
+<div>
+<input type="submit" value="Update"/><br><br><hr>
+</div>		
+</form>
 <p>
   <%= post['created_at'] %>
 </p>
-<!-- Adds the title to the layout  - see EJS Layouts -->
-<%- contentFor('title') %>
-<%= post['title'] %>
+
+<!-- Update the content to the layout  - see EJS Layouts -->
+<%- contentFor('content') %>
+<%= post['content'] %>

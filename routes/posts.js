@@ -21,6 +21,10 @@ router.get('/:slug', postsController.show);
 router.post('/', postsController.create);
 // TODO: Add Edit and Delete Requests
 
+// Update blog
+router.put('/', postsController.put);
+
+
 
 // Export routes
 module.exports = router;
