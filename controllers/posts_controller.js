@@ -20,7 +20,7 @@ exports.show = function (req, res, next) {
     });
 };
 
-exports.new = function(req, res, next) {
+exports.new = function (req, res, next) {
     // let post = posts[0];
     // let message = ""
     // let post = {
@@ -28,9 +28,9 @@ exports.new = function(req, res, next) {
     //     content: ""
     // }
     res.locals.title = "New Blog Post"
-    res.locals.post = {title: "", content: "", summary: ""}
-    res.locals.message  = ""
-	res.render('posts/new');
+    res.locals.post = { title: "", content: "", summary: "" }
+    res.locals.message = ""
+    res.render('posts/new');
 };
 
 // exports.new = function (req, res, next) {
@@ -51,12 +51,12 @@ exports.create = function (req, res, next) {
     // slug - see models/posts.js
 
     function truncate(str, no_words) {
-      return str.split(" ").splice(0, no_words).join(" ");
+        return str.split(" ").splice(0, no_words).join(" ");
     }
     let formPost = req.body
     if (formPost.summary === undefined) {
         const postSummary = truncate(req.body.content, 20) + "...";
-        formPost = Object.assign(formPost, {summary: postSummary});
+        formPost = Object.assign(formPost, { summary: postSummary });
     }
     const newPost = new Post(formPost);
 
@@ -66,13 +66,33 @@ exports.create = function (req, res, next) {
 };
 
 exports.put = function (req, res, next) {
-  Post.findById(id, function (err, post) {
-    if (err) return handleError(err);
-  
-    post.title = req.title;
-    post.save(function (err, updatedPost) {
-      if (err) return handleError(err);
-      res.send(updatedPost);
+    Post.updateOne({ title: req.params.title }, function (err, post) {
+        if (err) return handleError(err);
     });
-  });
-}
+    var id = req.params.id
+    Post.findById(id, function (error, post) {
+      if (error) {
+        return handleError(err);
+      } else {
+        post.title = req.body.title
+        post.content = req.body.content
+  
+        post.save();
+      }
+    });
+};
+
+exports.update = function (req, res, next) {
+    Post.find().exec((err, posts) => {
+        let post = posts.filter(x => x['slug'] === req.params['slug'])[0];
+        res.render('posts/update', { post })
+    });
+};
+
+exports.delete = function (req, res, next) {
+    let id = req.params.id
+    Post.findByIdAndRemove(id, function (err, post) {
+      if (err) return handleError(err);
+      res.redirect('/blog');
+    });
+};

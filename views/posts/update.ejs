@@ -1,0 +1,15 @@
+<!-- contains a partial for an individual blog page -->
+<form action="/blog/<%= post['slug']%>" method="put">
+  Title: <br>
+  <input type="text" name="title" value="<%- post['title'] || "" %>" required> <br>
+  Content:<br>
+  <textarea name="content" required><%- post['content'] || "" %></textarea><br>
+  <div>
+    <input type="submit" value="Update" /><br><br>
+    <hr>
+  </div>
+</form>
+
+<p>
+  <%= post['created_at'] %>
+</p>
