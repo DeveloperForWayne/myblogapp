@@ -1,5 +1,6 @@
 <!-- contains a partial for an individual blog page -->
-<form action="/blog/<%= post['slug']%>" method="put">
+<form action="/blog/<%= post['slug']%>" method="patch">
+  <input type="hidden" name="id" value="<%- post['id'] || "" %>" required> <br>
   Title: <br>
   <input type="text" name="title" value="<%- post['title'] || "" %>" required> <br>
   Content:<br>

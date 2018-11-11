@@ -65,34 +65,32 @@ exports.create = function (req, res, next) {
     }).catch(next)
 };
 
-exports.put = function (req, res, next) {
-    Post.updateOne({ title: req.params.title }, function (err, post) {
-        if (err) return handleError(err);
-    });
-    var id = req.params.id
+exports.update = function (req, res, next) {
+    var id = req.params.id;
     Post.findById(id, function (error, post) {
-      if (error) {
-        return handleError(err);
-      } else {
-        post.title = req.body.title
-        post.content = req.body.content
-  
-        post.save();
-      }
+        if (error) return handleError(error);
+
+        post.title = req.params['title'];
+        post.content = req.params['content'];
+
+        post.save(function (error, post) {
+            if (error) return handleError(error);
+            res.send(post);
+        });
     });
 };
 
-exports.update = function (req, res, next) {
+exports.updatePage = function (req, res, next) {
     Post.find().exec((err, posts) => {
         let post = posts.filter(x => x['slug'] === req.params['slug'])[0];
         res.render('posts/update', { post })
     });
 };
 
-exports.delete = function (req, res, next) {
+exports.del = function (req, res, next) {
     let id = req.params.id
     Post.findByIdAndRemove(id, function (err, post) {
-      if (err) return handleError(err);
-      res.redirect('/blog');
-    });
+        if (err) return handleError(err);
+        res.redirect('/blog');
+    })
 };

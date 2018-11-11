@@ -5,8 +5,8 @@ var postsController = require('../controllers/posts_controller');
 // GET /blog/new
 router.get('/new', postsController.new);
 
-// Update blog
-router.get('/:slug/update', postsController.update);
+// Update Page
+router.get('/:slug/update', postsController.updatePage);
 
 // GET all posts listings.
 // GET /blog/
@@ -14,11 +14,11 @@ router.get('/', postsController.index);
 
 // Get an Individual post listing
 
-// Put /blog/:slug
-router.put('/:slug', postsController.put);
+// Patch /blog/:slug
+router.patch('/:slug', postsController.update);
 
 // Delete /blog/:slug
-router.delete('/:slug', postsController.delete);
+router.delete('/:slug', postsController.del);
 
 // GET /blog/:slug
 router.get('/:slug', postsController.show);
